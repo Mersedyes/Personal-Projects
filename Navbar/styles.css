@@ -224,7 +224,7 @@ nav {
         display: none;
     }
     .links {
-        height: auto;
+        height: auto; /*have to do this bc of the show-links making links massive, if links removed you wont see links at all*/
         display: flex;
     }
     .links a {
