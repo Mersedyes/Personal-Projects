@@ -247,10 +247,10 @@ Sidebar
     row-gap: 1rem;
     box-shadow: var(--clr-red-dark);
     transition: var(--transition);
-    /* transform: translate(-100%); */
+    transform: translate(-100%); /*hides the sidebar*/
 }
 .show-sidebar {
-    transform: translate(0);
+    transform: translate(0); /*shows the sidebar in the default position this will be shown in a class*/
 }
 @media screen and (min-width: 676px) {
     .sidebar {
