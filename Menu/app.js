@@ -1,5 +1,4 @@
-const menu =
-    [
+const menu = [
     {
         id: 1,
         title: "buttermilk pancakes",
@@ -14,8 +13,7 @@ const menu =
         category: "lunch",
         price: 13.99,
         img: "./images/item-2.jpeg",
-        desc: `vaporware iPhone mumblecore selvage raw denim slow-carb leggings gochujang helvetica man braid jianbing. 
-        Marfa thundercats `,
+        desc: `vaporware iPhone mumblecore selvage raw denim slow-carb leggings gochujang helvetica man braid jianbing. Marfa thundercats `,
     },
     {
         id: 3,
@@ -73,35 +71,83 @@ const menu =
         img: "./images/item-9.jpeg",
         desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
     },
+    {
+        id: 10,
+        title: "bison steak",
+        category: "dinner",
+        price: 22.99,
+        img: "./images/item-10.jpeg",
+        desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+    },
 ];
-
-const sectionCenter = document.querySelector('.section-center');
-
-window.addEventListener('DOMContentLoaded', function (){
-    //console.log("shake and bake");
-    displayMenuItems(menu)
+// get parent element
+const sectionCenter = document.querySelector(".section-center");
+const btnContainer = document.querySelector(".btn-container");
+// display all items when page loads
+window.addEventListener("DOMContentLoaded", function () {
+    diplayMenuItems(menu);
+    displayMenuButtons();
 });
 
-function displayMenuItems(menuItems){
-    let displayMenu = menuItems.map(function (item){
-        //console.log(item);
+function diplayMenuItems(menuItems) {
+    let displayMenu = menuItems.map(function (item) {
+        // console.log(item);
 
-        //return `<h1>${item.title}</h>`;
-        //make this dynamic by accessing the variables
         return `<article class="menu-item">
-         <img src=${item.img} class="photo" alt=${item.title} />
-            <div class="item-info">
-                <header>
-                    <h4> ${item.title}</h4>
-                    <h4 class="price"> ${item.price}</h4>
-                </header>
-                <p class=${item.desc}>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias dolor ducimus enim eum
-                    exercitationem fugit illo odit officiis ratione tempora.</p>
-            </div>
+          <img src=${item.img} alt=${item.title} class="photo" />
+          <div class="item-info">
+            <header>
+              <h4>${item.title}</h4>
+              <h4 class="price">$${item.price}</h4>
+            </header>
+            <p class="item-text">
+              ${item.desc}
+            </p>
+          </div>
         </article>`;
     });
     displayMenu = displayMenu.join("");
+    // console.log(displayMenu);
 
     sectionCenter.innerHTML = displayMenu;
+}
+function displayMenuButtons() {
+    const categories = menu.reduce(
+        function (values, item) {
+            if (!values.includes(item.category)) {
+                values.push(item.category);
+            }
+            return values;
+        },
+        ["all"]
+    );
+    const categoryBtns = categories
+        .map(function (category) {
+            return `<button type="button" class="filter-btn" data-id=${category}>
+          ${category}
+        </button>`;
+        })
+        .join("");
+
+    btnContainer.innerHTML = categoryBtns;
+    const filterBtns = btnContainer.querySelectorAll(".filter-btn");
+    console.log(filterBtns);
+
+    filterBtns.forEach(function (btn) {
+        btn.addEventListener("click", function (e) {
+            // console.log(e.currentTarget.dataset);
+            const category = e.currentTarget.dataset.id;
+            const menuCategory = menu.filter(function (menuItem) {
+                // console.log(menuItem.category);
+                if (menuItem.category === category) {
+                    return menuItem;
+                }
+            });
+            if (category === "all") {
+                diplayMenuItems(menu);
+            } else {
+                diplayMenuItems(menuCategory);
+            }
+        });
+    });
 }
